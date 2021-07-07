@@ -6,7 +6,7 @@
             "value": "RG_StudioReload_VM"
         },
         "location": {
-            "value": "uksouth"
+            "value": "eastus2"
         },
         "osVersion" :{
             "value": "Windows"
