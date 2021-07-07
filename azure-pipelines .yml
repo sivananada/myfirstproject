@@ -14,7 +14,7 @@ stages:
             inputs:
               azureSubscription: "Free Trial"
               resourceGroupName: 'RG_StudioReload_VM'
-              location: 'UK South'
+              location: 'eastus2'
               csmFile: "myfirstproject/vmazuredeploy1.json"
               csmParametersFile: "myfirstproject/vmazuredeploy.parameters.json"
               #overrideParameters: '-virtualMachineName "SR-VM02" -subnetName "default" -virtualNetworkName "SR-Demo-VMs_group-vnet" -vnetresourceGroupName "SR-VM01_group" -adminUsername "admin1234" -adminPassword "admin@1234567890"'
