@@ -1,0 +1,101 @@
+{
+	"$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"virtualMachineName": {
+			"type": "string",
+			"defaultValue": "SR-VM02"
+		},
+		"subnetName": {
+			"type": "string",
+			"defaultValue": "default"
+		},
+		"virtualNetworkName": {
+			"type": "string",
+			"defaultValue": "SR-Demo-VMs_group-vnet"
+		},
+		"vnetresourceGroupName": {
+			"type": "string",
+			"defaultValue": "SR-VM01_group"
+		},
+		"adminUsername": {
+			"type": "string",
+			"defaultValue": "admin1234"
+		},
+		"adminPassword": {
+			"type": "secureString",
+			"defaultValue": "admin@1234567890"
+		}
+	},
+	"variables": {
+		"virtualMachineSize": "Standard_D4s_v4",
+		"networkInterfaceName": "[concat(parameters('virtualMachineName'), '-','nic')]",
+		"subnetRef": "[resourceId(parameters('vnetresourceGroupName'),'Microsoft.Network/virtualNetworks/subnets', parameters('virtualNetworkName'), parameters('subnetName'))]"
+	},
+	"resources": [{
+			"name": "[variables('networkInterfaceName')]",
+			"type": "Microsoft.Network/networkInterfaces",
+			"apiVersion": "2020-05-01",
+			"location": "[resourceGroup().location]",
+			"properties": {
+				"ipConfigurations": [{
+					"name": "ipconfig1",
+					"properties": {
+						"subnet": {
+							"id": "[variables('subnetRef')]"
+						},
+						"privateIPAllocationMethod": "Dynamic"
+					}
+				}]
+			}
+		},
+		{
+			"name": "[parameters('virtualMachineName')]",
+			"type": "Microsoft.Compute/virtualMachines",
+			"apiVersion": "2019-07-01",
+			"location": "[resourceGroup().location]",
+			"dependsOn": [
+				"[concat('Microsoft.Network/networkInterfaces/', variables('networkInterfaceName'))]"
+			],
+			"tags": {
+				"Functional_VM": "2 users 1 and 1.1",
+				"Studio_Reloaded_Health_checks": "Subscription Resource Heath checks"
+			},
+			"properties": {
+				"hardwareProfile": {
+					"vmSize": "[variables('virtualMachineSize')]"
+				},
+				"storageProfile": {
+					"imageReference": {
+						"publisher": "MicrosoftWindowsDesktop",
+						"offer": "Windows-10",
+						"sku": "20h1-pro",
+						"version": "latest"
+					},
+					"osDisk": {
+						"createOption": "FromImage",
+						"managedDisk": {
+							"storageAccountType": "StandardSSD_LRS"
+						}
+					},
+					"dataDisks": [{
+						"diskSizeGB": "127",
+						"lun": 0,
+						"createOption": "Empty"
+					}]
+				},
+
+				"networkProfile": {
+					"networkInterfaces": [{
+						"id": "[resourceId('Microsoft.Network/networkInterfaces', variables('networkInterfaceName'))]"
+					}]
+				},
+				"osProfile": {
+					"computerName": "[parameters('virtualMachineName')]",
+					"adminUsername": "[parameters('adminUsername')]",
+					"adminPassword": "[parameters('adminPassword')]"
+				}
+			}
+		}
+	]
+}

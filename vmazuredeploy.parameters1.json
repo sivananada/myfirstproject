@@ -1,0 +1,45 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "resourceGroupName": {
+            "value": "RG_StudioReload_VM"
+        },
+        "location": {
+            "value": "uksouth"
+        },
+        "osVersion" :{
+            "value": "Windows"
+        },
+        "virtualMachineName": {
+            "value": "SR-VM01"
+        },
+        "virtualMachineSize": {
+            "value": "Standard D4s_v4"
+        },
+        "subnetName": {
+            "value": "default"
+        },
+        "virtualNetworkName": {
+            "value": "SR-Demo-VMs_group-vnet"
+        },
+        "vnetresourceGroupName": {
+            "value": "SR-VM01_group"
+        },
+        "networkInterfaceName": {
+            "value": "windows-nic"
+        },
+        "tags": {
+            "value": {
+                "Functional VM" : "2 users 1 and 1.1",
+                "Studio_Reloaded_Health_checks" : "Subscription Resource Heath checks"
+            }
+        },
+        "adminUsername": {
+            "value": "admin1234"
+        },
+        "adminPassword": {
+            "value": "admin@1234567890"
+        }
+    }
+}

@@ -1,0 +1,20 @@
+trigger:
+- main
+
+pool:
+  vmImage: "windows-latest"
+
+stages:
+  - stage: VirtualMachine
+    jobs:
+      - job: Create_Virtual_Machine
+        steps:
+          - task : AzureResourceGroupDeployment@2
+            displayName: Create VM
+            inputs:
+              azureSubscription: "SFS"
+              resourceGroupName: 'RG_StudioReload_VM'
+              location: 'UK South'
+              csmFile: "virtual machine/vmazuredeploy1.json"
+              csmParametersFile: "virtual machine/vmazuredeploy.parameters.json"
+              #overrideParameters: '-virtualMachineName "SR-VM02" -subnetName "default" -virtualNetworkName "SR-Demo-VMs_group-vnet" -vnetresourceGroupName "SR-VM01_group" -adminUsername "admin1234" -adminPassword "admin@1234567890"'
