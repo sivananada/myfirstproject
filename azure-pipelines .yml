@@ -12,7 +12,7 @@ stages:
           - task : AzureResourceGroupDeployment@2
             displayName: Create VM
             inputs:
-              azureSubscription: "SFS"
+              azureSubscription: "Free Trial"
               resourceGroupName: 'RG_StudioReload_VM'
               location: 'UK South'
               csmFile: "myfirstproject/vmazuredeploy1.json"
